@@ -1,9 +1,9 @@
 package rpg;
 
 public class Warrior extends PlayableCharacter {
-  private int weapon;
+  private String weapon;
 
-  public Warrior(String name, int health, int weapon) {
+  public Warrior(String name, int health, String weapon) {
     super(name, health);
     this.weapon = weapon;
   }
@@ -17,6 +17,6 @@ public class Warrior extends PlayableCharacter {
   public void printStats() {
     System.out.println("Name: " + this.name);
     System.out.println("Health: " + this.health);
-    System.out.println("Rage: " + this.weapon);
+    System.out.println("Weapon: " + this.weapon);
   }
 }
