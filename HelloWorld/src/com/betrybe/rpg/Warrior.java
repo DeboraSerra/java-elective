@@ -1,22 +1,22 @@
-package rpg;
+package com.betrybe.rpg;
 
 public class Warrior extends PlayableCharacter {
-  private String weapon;
+  private String weapon; // arma
 
-  public Warrior(String name, int health, String weapon) {
-    super(name, health);
+  public String getWeapon() {
+    return weapon;
+  }
+
+  public void setWeapon(String weapon) {
     this.weapon = weapon;
   }
 
-  public void attack() {
-    if (this.isAlive) {
-      System.out.println(this.name + " attacks");
+  public void specialAttack() {
+    if (!isAlive) {
+      System.out.println("Personagem morreu e não pode usar seu ataque especial.");
+      return;
     }
-  }
 
-  public void printStats() {
-    System.out.println("Name: " + this.name);
-    System.out.println("Health: " + this.health);
-    System.out.println("Weapon: " + this.weapon);
+    System.out.println(this.getName() + " está usando seu ataque especial!");
   }
 }

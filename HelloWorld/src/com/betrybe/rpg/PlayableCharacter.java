@@ -1,13 +1,47 @@
-package rpg;
+package com.betrybe.rpg;
 
 public class PlayableCharacter {
-  protected String name;
-  protected int health;
+
+  private String name;
+  private String race;
+
   protected boolean isAlive;
 
-  public PlayableCharacter(String name, int health) {
-    this.name = name;
-    this.health = health;
+  public PlayableCharacter() {
     this.isAlive = true;
   }
+
+  public void move() {
+    if (!isAlive) {
+      System.out.println("Personagem morreu e não pode se mover.");
+      return;
+    }
+
+    System.out.println(name + " está se movendo!");
+  }
+
+  public void attack() {
+    if (!isAlive) {
+      System.out.println("Personagem morreu e não pode atacar.");
+      return;
+    }
+
+    System.out.println(name + " está atacando!");
+  }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getRace() {
+    return race;
+  }
+
+  public void setRace(String race) {
+    this.race = race;
+  }
+
 }
