@@ -1,8 +1,11 @@
 package com.betrybe.alexandria.service;
 
 import com.betrybe.alexandria.entites.Book;
+import com.betrybe.alexandria.entites.BookDetail;
+import com.betrybe.alexandria.exception.BookDetailNotFound;
 import com.betrybe.alexandria.exception.BookNotFound;
 import com.betrybe.alexandria.exception.InvalidBody;
+import com.betrybe.alexandria.repository.BookDetailRepository;
 import com.betrybe.alexandria.repository.BookRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookService {
   private final BookRepository bookRepository;
+  private final BookDetailRepository bookDetailRepository;
 
   @Autowired
-  public BookService(BookRepository bookRepository) {
+  public BookService(BookRepository bookRepository, BookDetailRepository bookDetailRepository) {
     this.bookRepository = bookRepository;
+    this.bookDetailRepository = bookDetailRepository;
   }
 
   public Book findById(Long id) throws BookNotFound {
@@ -46,5 +51,53 @@ public class BookService {
     Book bookFromDb = findById(id);
     bookRepository.deleteById(id);
     return bookFromDb;
+  }
+
+  public BookDetail createBookDetail (Long bookId, BookDetail bookDetail)
+      throws BookNotFound, InvalidBody {
+    Book book = findById(bookId);
+    if (bookDetail.getIsbn() == null || bookDetail.getSummary() == null  || bookDetail.getYear() == null || bookDetail.getPageCount() == null) {
+      throw new InvalidBody("Book detail is missing content");
+    }
+    bookDetail.setBook(book);
+    return bookDetailRepository.save(bookDetail);
+  }
+
+  public BookDetail getBookDetail (Long bookId) throws BookNotFound, BookDetailNotFound {
+    Book book = findById(bookId);
+    BookDetail bookDetail = book.getBookDetail();
+    if (bookDetail == null) {
+      throw new BookDetailNotFound();
+    }
+    return bookDetail;
+  }
+
+  public BookDetail updateBookDetail (Long bookId, BookDetail bookDetail)
+      throws BookNotFound, InvalidBody, BookDetailNotFound {
+    BookDetail bookDetailDb = getBookDetail(bookId);
+
+    if (bookDetail.getIsbn() == null || bookDetail.getSummary() == null
+        || bookDetail.getYear() == null || bookDetail.getPageCount() == null) {
+      throw new InvalidBody("Book detail is missing content");
+    }
+    bookDetailDb.setIsbn(bookDetail.getIsbn());
+    bookDetailDb.setYear(bookDetail.getYear());
+    bookDetailDb.setSummary(bookDetail.getSummary());
+    bookDetailDb.setPageCount(bookDetail.getPageCount());
+    return bookDetailRepository.save(bookDetailDb);
+  }
+
+  public BookDetail deleteBookDetail (Long bookId) throws BookNotFound, BookDetailNotFound {
+    Book book = findById(bookId);
+    BookDetail bookDetail = book.getBookDetail();
+    if (bookDetail == null) {
+      throw new BookDetailNotFound();
+    }
+
+    book.setBookDetail(null);
+    bookDetail.setBook(null);
+
+    bookDetailRepository.delete(bookDetail);
+    return bookDetail;
   }
 }
