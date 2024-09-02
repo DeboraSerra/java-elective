@@ -9,6 +9,7 @@ import com.betrybe.alexandria.entites.BookDetail;
 import com.betrybe.alexandria.exception.BookDetailNotFound;
 import com.betrybe.alexandria.exception.BookNotFound;
 import com.betrybe.alexandria.exception.InvalidBody;
+import com.betrybe.alexandria.exception.NotFound;
 import com.betrybe.alexandria.service.BookService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,20 @@ public class BookController {
       throws BookNotFound, BookDetailNotFound {
     BookDetail bookDetail = bookService.deleteBookDetail(bookId);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDetailDto.fromEntity(bookDetail));
+  }
+
+  @PutMapping("/{bookId}/publisher/{publisherId}")
+  public ResponseEntity<BookDto> setBookPublisher(@PathVariable Long bookId,
+      @PathVariable Long publisherId)
+      throws NotFound {
+    Book book = bookService.setBookPublisher(bookId, publisherId);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDto.fromEntity(book));
+  }
+
+  @DeleteMapping("/{bookId}/publisher")
+  public ResponseEntity<BookDto> removeBookPublisher(@PathVariable Long bookId)
+      throws BookNotFound {
+    Book book = bookService.removeBookPublisher(bookId);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDto.fromEntity(book));
   }
 }
