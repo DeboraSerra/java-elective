@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Publisher {
   private String address;
 
   @OneToMany(mappedBy = "publisher")
-  private List<Book> books;
+  private List<Book> books = new ArrayList<>();
 
   public Publisher() {
   }

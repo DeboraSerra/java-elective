@@ -49,7 +49,8 @@ public class AuthorController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<AuthorDto> update(@PathVariable Long id, @RequestBody AuthorCreationDto body)
+  public ResponseEntity<AuthorDto> update(@PathVariable Long id,
+      @RequestBody AuthorCreationDto body)
       throws AuthorNotFound, InvalidBody {
     Author author = authorService.update(id, body.toEntity());
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(AuthorDto.fromEntity(author));

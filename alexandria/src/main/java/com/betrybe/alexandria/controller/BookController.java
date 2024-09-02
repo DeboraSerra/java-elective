@@ -108,4 +108,18 @@ public class BookController {
     Book book = bookService.removeBookPublisher(bookId);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDto.fromEntity(book));
   }
+
+  @PutMapping("/{bookId}/author/{authorId}")
+  public ResponseEntity<BookDto> addBookAuthor(@PathVariable Long bookId,
+      @PathVariable Long authorId) throws NotFound {
+    Book book = bookService.addBookAuthor(bookId, authorId);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDto.fromEntity(book));
+  }
+
+  @DeleteMapping("/{bookId}/author/{authorId}")
+  public ResponseEntity<BookDto> removeBookAuthor(@PathVariable Long bookId,
+      @PathVariable Long authorId) throws NotFound {
+    Book book = bookService.removeBookAuthor(bookId, authorId);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(BookDto.fromEntity(book));
+  }
 }
