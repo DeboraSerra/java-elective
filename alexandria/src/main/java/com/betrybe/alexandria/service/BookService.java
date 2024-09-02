@@ -10,11 +10,11 @@ import com.betrybe.alexandria.exception.InvalidBody;
 import com.betrybe.alexandria.exception.NotFound;
 import com.betrybe.alexandria.repository.BookDetailRepository;
 import com.betrybe.alexandria.repository.BookRepository;
-import java.awt.print.Pageable;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,8 +39,8 @@ public class BookService {
   }
 
   public List<Book> findAll(int pageNumber, int pageSize) {
-    Pageable pageable = (Pageable) PageRequest.of(pageNumber, pageSize);
-    Page<Book> page = bookRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Page<Book> page = bookRepository.findAll(pageable);
 
     return page.toList();
   }
